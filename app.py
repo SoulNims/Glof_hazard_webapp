@@ -32,8 +32,6 @@ base_maps = {
     "OpenStreetMap": "OpenStreetMap",
     "CartoDB Positron": "CartoDB.Positron",
     "CartoDB Dark Matter": "CartoDB.DarkMatter",
-    "Stamen Terrain": "Stamen.Terrain",
-    "Stamen Toner": "Stamen.Toner",
     "Esri Satellite": "Esri.WorldImagery",
     "Esri NatGeo": "Esri.NatGeoWorldMap",
     "OpenTopoMap": "OpenTopoMap"
