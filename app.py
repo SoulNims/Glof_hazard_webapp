@@ -1,11 +1,11 @@
 # ===================================================
-# app.py — Interactive GLOF Hazard Map with Map Selector
+# app.py — Optimized Interactive GLOF Hazard Map
 # ===================================================
 import streamlit as st
 import folium
+from folium.plugins import MarkerCluster
 from branca.colormap import LinearColormap
 import pandas as pd
-from streamlit_folium import st_folium
 
 # ---------------------------------------------------
 # 1. Page setup
@@ -15,7 +15,7 @@ st.title("🌊 Himalayan Glacial Lake Outburst Flood (GLOF) Hazard Map")
 st.markdown("Explore glacial lakes across the Himalayas with predicted hazard probabilities from the ML model.")
 
 # ---------------------------------------------------
-# 2. Load dataset
+# 2. Load dataset (cached for speed)
 # ---------------------------------------------------
 @st.cache_data
 def load_data():
@@ -34,11 +34,9 @@ base_maps = {
     "CartoDB Dark Matter": "CartoDB.DarkMatter",
     "Stamen Terrain": "Stamen.Terrain",
     "Stamen Toner": "Stamen.Toner",
-    "Stamen Watercolor": "Stamen.Watercolor",
     "Esri Satellite": "Esri.WorldImagery",
     "Esri NatGeo": "Esri.NatGeoWorldMap",
-    "OpenTopoMap": "OpenTopoMap",
-    "NASAGIBS Night Lights": "NASAGIBS.ViirsEarthAtNight2012"
+    "OpenTopoMap": "OpenTopoMap"
 }
 
 selected_map = st.sidebar.selectbox(
@@ -50,27 +48,27 @@ selected_map = st.sidebar.selectbox(
 zoom_level = st.sidebar.slider("Zoom Level", 5, 12, 7)
 
 # ---------------------------------------------------
-# 4. Create base map dynamically
+# 4. Create map (once only)
 # ---------------------------------------------------
-hazard_map = folium.Map(
-    location=[28.2, 87.0],  # Center near Makalu-Barun / eastern Nepal
+m = folium.Map(
+    location=[28.2, 87.0],
     zoom_start=zoom_level,
-    tiles=selected_map,
+    tiles=base_maps[selected_map],
     attr="© OpenStreetMap contributors"
 )
 
-# ---------------------------------------------------
-# 5. Create continuous color scale
-# ---------------------------------------------------
+# Continuous color scale
 colormap = LinearColormap(
     ['green', 'yellow', 'orange', 'red', 'darkred'],
     vmin=0, vmax=1,
     caption='Hazard Probability'
-)
-colormap.add_to(hazard_map)
+).add_to(m)
+
+# Marker clustering for speed
+marker_cluster = MarkerCluster().add_to(m)
 
 # ---------------------------------------------------
-# 6. Plot each lake
+# 5. Add all lakes as clustered markers
 # ---------------------------------------------------
 area_col = "Lake_area_calculated_ha"
 
@@ -78,7 +76,7 @@ for _, row in hazard_df.iterrows():
     prob = row["Hazard_Prob"]
     area = row.get(area_col, 0.5)
     color = colormap(prob)
-    radius = max(2, min(area / 30, 10))
+    radius = max(3, min(area / 30, 10))
 
     popup_html = f"""
     <b>Lake Information</b><br>
@@ -87,13 +85,8 @@ for _, row in hazard_df.iterrows():
     <b>Lake Area (ha):</b> {row.get('Lake_area_calculated_ha', 0):.2f}<br>
     <b>Elevation (m):</b> {row.get('Elevation_m', 0):.0f}<br>
     <b>Lake Type:</b> {row.get('Lake_type_simplified', 'N/A')}<br>
-    <b>Supraglacial:</b> {row.get('is_supraglacial', 'N/A')}<br>
     <b>Glacier Area (ha):</b> {row.get('glacier_area_ha', 0):.2f}<br>
-    <b>Slope glac→lake (°):</b> {row.get('slope_glac_to_lake', 0):.2f}<br>
-    <b>Glacier Contact:</b> {row.get('glacier_contact', 'N/A')}<br>
-    <b>Glacier Touch Count:</b> {row.get('glacier_touch_count', 0)}<br>
     <b>Nearest Glacier Dist (m):</b> {row.get('nearest_glacier_dist_m', 0):.0f}<br>
-    <b>Glacier Elev (m):</b> {row.get('glacier_elev_m', 0):.0f}<br>
     <b>5-yr Expansion Rate:</b> {row.get('5y_expansion_rate', 0):.3f}<br>
     <b>10-yr Expansion Rate:</b> {row.get('10y_expansion_rate', 0):.3f}<br>
     <b>Observed GLOF:</b> {row.get('GLOF', 'N/A')}<br>
@@ -103,15 +96,23 @@ for _, row in hazard_df.iterrows():
     folium.CircleMarker(
         location=[row["Latitude"], row["Longitude"]],
         radius=radius,
-        color=None,
         fill=True,
         fill_color=color,
+        color=color,
         fill_opacity=0.85,
         popup=folium.Popup(popup_html, max_width=350)
-    ).add_to(hazard_map)
+    ).add_to(marker_cluster)
 
 # ---------------------------------------------------
-# 7. Add layer control + display map
+# 6. Add control and save to static HTML
 # ---------------------------------------------------
-folium.LayerControl().add_to(hazard_map)
-st_folium(hazard_map, width=1300, height=750)
+folium.LayerControl().add_to(m)
+m.save("hazard_map.html")
+
+# ---------------------------------------------------
+# 7. Render pre-saved HTML (no lag)
+# ---------------------------------------------------
+with open("hazard_map.html", "r", encoding="utf-8") as f:
+    map_html = f.read()
+
+st.components.v1.html(map_html, height=750, width=1300)
