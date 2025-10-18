@@ -11,7 +11,7 @@ import pandas as pd
 # 1. Page setup
 # ---------------------------------------------------
 st.set_page_config(page_title="Himalayan GLOF Hazard Map", layout="wide")
-st.title("🌊 Himalayan Glacial Lake Outburst Flood (GLOF) Hazard Map")
+st.title("Himalayan Glacial Lake Outburst Flood (GLOF) Hazard Map")
 st.markdown("Explore glacial lakes across the Himalayas with predicted hazard probabilities from the ML model.")
 
 # ---------------------------------------------------
@@ -26,7 +26,7 @@ hazard_df = load_data()
 # ---------------------------------------------------
 # 3. Sidebar map selector
 # ---------------------------------------------------
-st.sidebar.header("🗺️ Map Settings")
+st.sidebar.header("Map Settings")
 
 base_maps = {
     "OpenStreetMap": "OpenStreetMap",
