@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLOF Hazard Prediction</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(180deg, #e3f2fd, #f9f9f9);
+            color: #333;
+        }
+        .container {
+            max-width: 650px;
+            margin: 60px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #1e88e5;
+            margin-bottom: 25px;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin-top: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #1e88e5;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            margin-top: 25px;
+            padding: 12px;
+            transition: 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #1565c0;
+        }
+        .result {
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 25px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .high-risk {
+            background-color: #ffe5e5;
+            color: #d32f2f;
+            border: 1px solid #d32f2f;
+        }
+        .low-risk {
+            background-color: #e5ffe5;
+            color: #2e7d32;
+            border: 1px solid #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🌊 Himalayan GLOF Hazard Prediction</h2>
+
+        <form action="/predict" method="post">
+            <label for="Lake_area_calculated_ha">Lake Area (ha):</label>
+            <input type="number" step="0.01" name="Lake_area_calculated_ha" required>
+
+            <label for="Elevation_m">Elevation (m):</label>
+            <input type="number" step="1" name="Elevation_m" required>
+
+            <label for="is_supraglacial">Is Supraglacial (0 or 1):</label>
+            <input type="number" min="0" max="1" name="is_supraglacial" required>
+
+            <label for="slope_glac_to_lake">Slope Glacier→Lake (°):</label>
+            <input type="number" step="0.1" name="slope_glac_to_lake" required>
+
+            <label for="glacier_touch_count">Glacier Touch Count:</label>
+            <input type="number" step="1" name="glacier_touch_count" required>
+
+            <label for="5y_expansion_rate">5-Year Expansion Rate:</label>
+            <input type="number" step="0.001" name="5y_expansion_rate" required>
+
+            <label for="10y_expansion_rate">10-Year Expansion Rate:</label>
+            <input type="number" step="0.001" name="10y_expansion_rate" required>
+
+            <label for="nearest_glacier_dist_m">Nearest Glacier Distance (m):</label>
+            <input type="number" step="1" name="nearest_glacier_dist_m" required>
+
+            <label for="glacier_area_ha">Glacier Area (ha):</label>
+            <input type="number" step="0.01" name="glacier_area_ha" required>
+
+            <label for="glacier_elev_m">Glacier Elevation (m):</label>
+            <input type="number" step="1" name="glacier_elev_m" required>
+
+            <label for="glacier_contact">Glacier Contact (0 or 1):</label>
+            <input type="number" min="0" max="1" name="glacier_contact" required>
+
+            <label for="Lake_type_simplified">Lake Type (encoded number):</label>
+            <input type="number" min="0" max="5" name="Lake_type_simplified" required>
+
+            <input type="submit" value="Predict Hazard">
+        </form>
+
+        {% if prediction_text %}
+            {% if "High Risk" in prediction_text %}
+                <div class="result high-risk">{{ prediction_text }}</div>
+            {% elif "Low Risk" in prediction_text %}
+                <div class="result low-risk">{{ prediction_text }}</div>
+            {% else %}
+                <div class="result">{{ prediction_text }}</div>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
