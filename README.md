@@ -1,4 +1,4 @@
-# 🌊 Himalayan Glacial Lake Outburst Flood (GLOF) Hazard Map
+# Himalayan Glacial Lake Outburst Flood (GLOF) Hazard Map
 
 An interactive **web-based hazard visualization tool** that maps over **2,600 Himalayan glacial lakes** with machine learning–predicted GLOF (Glacial Lake Outburst Flood) probabilities.  
 
@@ -6,14 +6,14 @@ Built using **Streamlit** and **Folium**, this app allows users to explore regio
 
 ---
 
-## 🧠 Background
+## Background
 
 Glacial Lake Outburst Floods (GLOFs) are among the most catastrophic cryospheric hazards in the Himalayas, capable of releasing millions of cubic meters of water in hours.  
 This research project combines **remote sensing**, **machine learning**, and **imputation-based feature reconstruction (MICE)** to forecast the relative hazard of glacial lakes across Nepal, Tibet, and adjacent regions.
 
 ---
 
-## 🗺️ App Features
+## App Features
 
 - **Interactive Map Viewer:**  
   Explore lakes colored by hazard probability — from green (low risk) to dark red (high risk).
@@ -34,7 +34,7 @@ This research project combines **remote sensing**, **machine learning**, and **i
 
 ---
 
-## 🧩 Dataset Overview
+## Dataset Overview
 
 The app visualizes data from `hazard_probabilities.csv`, containing 2,652 glacial lakes with the following attributes:
 
@@ -53,7 +53,7 @@ The app visualizes data from `hazard_probabilities.csv`, containing 2,652 glacia
 
 ---
 
-## ⚙️ Technologies Used
+## Technologies Used
 
 - **Python 3.10+**
 - **Streamlit** – Web app framework  
@@ -64,7 +64,7 @@ The app visualizes data from `hazard_probabilities.csv`, containing 2,652 glacia
 
 ---
 
-## 🚀 How to Run Locally
+## How to Run Locally
 
 ```bash
 # 1. Clone the repository
