@@ -40,7 +40,7 @@ base_maps = {
 selected_map = st.sidebar.selectbox(
     "Choose Base Map Style:",
     options=list(base_maps.keys()),
-    index=1
+    index=0
 )
 
 zoom_level = st.sidebar.slider("Zoom Level", 5, 12, 7)
@@ -52,7 +52,7 @@ m = folium.Map(
     location=[28.2, 87.0],
     zoom_start=zoom_level,
     tiles=base_maps[selected_map],
-    attr="© CartoDB Positron contributors"
+    attr="© OpenStreetMap contributors"
 )
 
 # Continuous color scale
