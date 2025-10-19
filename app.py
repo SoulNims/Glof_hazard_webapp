@@ -29,8 +29,8 @@ hazard_df = load_data()
 st.sidebar.header("Map Settings")
 
 base_maps = {
-    "OpenStreetMap": "OpenStreetMap",
     "CartoDB Positron": "CartoDB.Positron",
+    "OpenStreetMap": "OpenStreetMap",
     "CartoDB Dark Matter": "CartoDB.DarkMatter",
     "Esri Satellite": "Esri.WorldImagery",
     "Esri NatGeo": "Esri.NatGeoWorldMap",
@@ -52,7 +52,7 @@ m = folium.Map(
     location=[28.2, 87.0],
     zoom_start=zoom_level,
     tiles=base_maps[selected_map],
-    attr="© OpenStreetMap contributors"
+    attr="© CartoDB Positron contributors"
 )
 
 # Continuous color scale
