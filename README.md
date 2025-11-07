@@ -27,7 +27,7 @@ This research project combines **remote sensing**, **machine learning**, and **i
   - Elevation (m)
   - Glacier proximity
   - Expansion rates (5-year & 10-year)
-  - Glacier contact type
+  - Glacier contact
   - Predicted Hazard Probability (0–1)
 - **Model Integration:**  
   Probabilities generated using a tuned **Logistic Regression classifier** trained on imputed and balanced datasets.
