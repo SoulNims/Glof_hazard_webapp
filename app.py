@@ -11,8 +11,10 @@ import pandas as pd
 # 1. Page setup
 # ---------------------------------------------------
 st.set_page_config(page_title="Himalayan GLOF Hazard Map", layout="wide")
-st.title("Himalayan Glacial Lake Outburst Flood (GLOF) Hazard Map")
-st.markdown("Explore glacial lakes across the Himalayas with predicted hazard probabilities from the ML model.")
+st.title("Predicting Glacial Lake Outburst Flood (GLOF) Risks Across the Himalayas")
+st.markdown("""This interactive map visualizes over 2,000 glacial lakes across the Himalayas with machine-learning-based hazard probability estimates.
+        Lake features were derived from remote sensing data and global glacial lake inventories, helping identify lakes with a high potential for future
+        outburst events.""")
 
 # ---------------------------------------------------
 # 2. Load dataset (cached for speed)
