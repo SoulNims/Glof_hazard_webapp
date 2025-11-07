@@ -87,9 +87,9 @@ for _, row in hazard_df.iterrows():
     <b>Lake Type:</b> {row.get('Lake_type_simplified', 'N/A')}<br>
     <b>Glacier Area (ha):</b> {row.get('glacier_area_ha', 0):.2f}<br>
     <b>Nearest Glacier Dist (m):</b> {row.get('nearest_glacier_dist_m', 0):.0f}<br>
-    <b>5-yr Expansion Rate:</b> {row.get('5y_expansion_rate', 0):.3f}<br>
-    <b>10-yr Expansion Rate:</b> {row.get('10y_expansion_rate', 0):.3f}<br>
-    <b>Observed GLOF:</b> {row.get('GLOF', 'N/A')}<br>
+    <b>5-yr Expansion Rate (ha/yr):</b> {row.get('5y_expansion_rate', 0):.3f}<br>
+    <b>10-yr Expansion Rate (ha/yr):</b> {row.get('10y_expansion_rate', 0):.3f}<br>
+    b>Observed GLOF:</b> {row.get('GLOF', 'N/A')}<br>
     <b><font color='{color}'>Hazard Probability:</font></b> {prob:.2f}
     """
 
