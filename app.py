@@ -104,9 +104,8 @@ for _, row in hazard_df.iterrows():
     ).add_to(marker_cluster)
 
 # ---------------------------------------------------
-# 6. Add control and save to static HTML
+# 6. save to static HTML
 # ---------------------------------------------------
-folium.LayerControl().add_to(m)
 m.save("hazard_map.html")
 
 # ---------------------------------------------------
